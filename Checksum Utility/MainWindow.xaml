@@ -3,43 +3,57 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Checksum_Utility"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Checksum Utility" Height="295
-        " Width="600">
+        Title="Checksum Utility" Height="365" Width="670">
     <Grid>
-        <TextBox x:Name="textBoxFilePath" AllowDrop="True" Height="24" Margin="15,24,184,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Label x:Name="labelFile" Content="File :" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="100" FontWeight="Bold" Margin="5,0,0,0"/>
-        <Label x:Name="labelChecksums" Content="Checksums :" HorizontalAlignment="Left" Height="24" Margin="5,58,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
-        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxCRC32" HorizontalAlignment="Left" Height="27" Margin="10,86,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxCRC32_Click">
+        <TextBox x:Name="textBoxFilePath" AllowDrop="True" Height="24" Margin="15,29,184,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Label x:Name="labelFile" Content="File :" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="100" FontWeight="Bold" Margin="5,5,0,0"/>
+        <Label x:Name="labelChecksums" Content="Checksums :" HorizontalAlignment="Left" Height="24" Margin="5,68,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
+        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxCRC32" HorizontalAlignment="Left" Height="27" Margin="10,96,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxCRC32_Click">
             <TextBlock FlowDirection="LeftToRight" Text="CRC32" Margin="0,0,0,4" />
         </CheckBox>
-        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxMD5" HorizontalAlignment="Left" Height="27" Margin="10,118,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxMD5_Click">
+        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxMD5" HorizontalAlignment="Left" Height="27" Margin="10,128,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxMD5_Click">
             <TextBlock FlowDirection="LeftToRight" Text="MD5" Margin="0,0,0,4" />
         </CheckBox>
-        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxSHA1" HorizontalAlignment="Left" Height="27" Margin="10,150,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxSHA1_Click">
+        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxSHA1" HorizontalAlignment="Left" Height="27" Margin="10,160,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxSHA1_Click">
             <TextBlock FlowDirection="LeftToRight" Text="SHA-1" Margin="0,0,0,4" />
         </CheckBox>
-        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxSHA256" HorizontalAlignment="Left" Height="27" Margin="10,182,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxSHA256_Click">
+        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxSHA256" HorizontalAlignment="Left" Height="27" Margin="10,192,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxSHA256_Click">
             <TextBlock FlowDirection="LeftToRight" Text="SHA-256" Margin="0,0,0,4" />
         </CheckBox>
-        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxSHA512" HorizontalAlignment="Left" Height="27" Margin="10,214,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxSHA512_Click">
+        <CheckBox FlowDirection="RightToLeft" x:Name="checkBoxSHA512" HorizontalAlignment="Left" Height="27" Margin="10,224,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="checkBoxSHA512_Click">
             <TextBlock FlowDirection="LeftToRight" Text="SHA-512" Margin="0,0,0,4" />
         </CheckBox>
-        <TextBox x:Name="textBoxCRC32" Height="23" Margin="90,86,97,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
-        <TextBox x:Name="textBoxMD5" Height="23" Margin="90,118,97,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
-        <TextBox x:Name="textBoxSHA1" Height="23" Margin="90,150,97,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
-        <TextBox x:Name="textBoxSHA256" Height="23" Margin="90,182,97,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
-        <TextBox x:Name="textBoxSHA512" Height="23" Margin="90,214,97,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
-        <Button x:Name="buttonCopyCRC32" Content="Copy" Height="24" Margin="0,85,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" IsEnabled="False" Click="buttonCopyCRC32_Click"/>
-        <Button x:Name="buttonCopyMD5" Content="Copy" Height="24" Margin="0,117,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" IsEnabled="False" Click="buttonCopyMD5_Click"/>
-        <Button x:Name="buttonCopySHA1" Content="Copy" Height="24" Margin="0,149,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" IsEnabled="False" Click="buttonCopySHA1_Click"/>
-        <Button x:Name="buttonCopySHA256" Content="Copy" Height="24" Margin="0,181,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" IsEnabled="False" Click="buttonCopySHA256_Click"/>
-        <Button x:Name="buttonCopySHA512" Content="Copy" Height="24" Margin="0,213,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" IsEnabled="False" Click="buttonCopySHA512_Click"/>
-        <Button x:Name="buttonCheckFile" Content="Check" Height="24" Margin="0,24,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonCheckFile_Click"/>
-        <Label x:Name="labelOthers" Content="Verify :" HorizontalAlignment="Left" Height="24" Margin="10,261,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
-        <Button x:Name="buttonSelectFile" Content="Select" Height="24" Margin="0,24,97,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonSelectFile_Click"/>
+        <TextBox x:Name="textBoxCRC32" Height="23" Margin="90,96,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+        <TextBox x:Name="textBoxMD5" Height="23" Margin="90,128,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+        <TextBox x:Name="textBoxSHA1" Height="23" Margin="90,160,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+        <TextBox x:Name="textBoxSHA256" Height="23" Margin="90,192,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+        <TextBox x:Name="textBoxSHA512" Height="23" Margin="90,224,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+        <Button x:Name="buttonCopyCRC32" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,95,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopyCRC32_Click"/>
+        <Button x:Name="buttonCopyMD5" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,127,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopyMD5_Click"/>
+        <Button x:Name="buttonCopySHA1" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,159,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA1_Click"/>
+        <Button x:Name="buttonCopySHA256" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,191,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA256_Click"/>
+        <Button x:Name="buttonCopySHA512" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,223,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA512_Click"/>
+        <Button x:Name="buttonCheckFile" Content="Check" Height="24" Margin="0,29,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonCheckFile_Click"/>
+        <Label x:Name="labelVerify" Content="Verify :" HorizontalAlignment="Left" Height="24" Margin="5,257,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
+        <Button x:Name="buttonSelectFile" Content="Select" Height="24" Margin="0,29,97,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonSelectFile_Click"/>
         <ProgressBar x:Name="progressBar" Height="4" VerticalAlignment="Bottom" IsIndeterminate="True"/>
+        <Button x:Name="buttonVerifyCRC32" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,95,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifyCRC32_Click"/>
+        <Button x:Name="buttonVerifyMD5" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,127,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifyMD5_Click"/>
+        <Button x:Name="buttonVerifySHA1" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,159,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA1_Click"/>
+        <Button x:Name="buttonVerifySHA256" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,191,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA256_Click"/>
+        <Button x:Name="buttonVerifySHA512" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,223,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA512_Click"/>
+        <materialDesign:PackIcon x:Name="IconCompare" Grid.Column="0" Kind="Compare" Margin="320,286,0,0" HorizontalAlignment="Left" Width="20" Height="20" Foreground="#89000000" />
+        <TextBox x:Name="TextBoxVerifyFileChecksum" materialDesign:HintAssist.Hint="File checksum" Height="25" Margin="15,281,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" TextChanged="TextBoxVerifyFileChecksum_TextChanged"/>
+        <TextBox x:Name="TextBoxVerifyCustomChecksum" materialDesign:HintAssist.Hint="Your checksum" Height="25" Margin="352,281,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBoxVerifyCustomChecksum_TextChanged"/>
 
     </Grid>
 </Window>

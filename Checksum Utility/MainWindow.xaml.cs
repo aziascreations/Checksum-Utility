@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Checksum_Utility {
 
@@ -20,26 +21,31 @@ namespace Checksum_Utility {
         private void checkBoxCRC32_Click(object sender, RoutedEventArgs e) {
             textBoxCRC32.IsEnabled = checkBoxCRC32.IsChecked.HasValue ? checkBoxCRC32.IsChecked.Value : false;
             buttonCopyCRC32.IsEnabled = checkBoxCRC32.IsChecked.HasValue ? checkBoxCRC32.IsChecked.Value : false;
+            buttonVerifyCRC32.IsEnabled = checkBoxCRC32.IsChecked.HasValue ? checkBoxCRC32.IsChecked.Value : false;
         }
 
         private void checkBoxMD5_Click(object sender, RoutedEventArgs e) {
             textBoxMD5.IsEnabled = checkBoxMD5.IsChecked.HasValue ? checkBoxMD5.IsChecked.Value : false;
             buttonCopyMD5.IsEnabled = checkBoxMD5.IsChecked.HasValue ? checkBoxMD5.IsChecked.Value : false;
+            buttonVerifyMD5.IsEnabled = checkBoxMD5.IsChecked.HasValue ? checkBoxMD5.IsChecked.Value : false;
         }
 
         private void checkBoxSHA1_Click(object sender, RoutedEventArgs e) {
             textBoxSHA1.IsEnabled = checkBoxSHA1.IsChecked.HasValue ? checkBoxSHA1.IsChecked.Value : false;
             buttonCopySHA1.IsEnabled = checkBoxSHA1.IsChecked.HasValue ? checkBoxSHA1.IsChecked.Value : false;
+            buttonVerifySHA1.IsEnabled = checkBoxSHA1.IsChecked.HasValue ? checkBoxSHA1.IsChecked.Value : false;
         }
 
         private void checkBoxSHA256_Click(object sender, RoutedEventArgs e) {
             textBoxSHA256.IsEnabled = checkBoxSHA256.IsChecked.HasValue ? checkBoxSHA256.IsChecked.Value : false;
             buttonCopySHA256.IsEnabled = checkBoxSHA256.IsChecked.HasValue ? checkBoxSHA256.IsChecked.Value : false;
+            buttonVerifySHA256.IsEnabled = checkBoxSHA256.IsChecked.HasValue ? checkBoxSHA256.IsChecked.Value : false;
         }
 
         private void checkBoxSHA512_Click(object sender, RoutedEventArgs e) {
             textBoxSHA512.IsEnabled = checkBoxSHA512.IsChecked.HasValue ? checkBoxSHA512.IsChecked.Value : false;
             buttonCopySHA512.IsEnabled = checkBoxSHA512.IsChecked.HasValue ? checkBoxSHA512.IsChecked.Value : false;
+            buttonVerifySHA512.IsEnabled = checkBoxSHA512.IsChecked.HasValue ? checkBoxSHA512.IsChecked.Value : false;
         }
 
         private void buttonCopyCRC32_Click(object sender, RoutedEventArgs e) {
@@ -60,6 +66,26 @@ namespace Checksum_Utility {
 
         private void buttonCopySHA512_Click(object sender, RoutedEventArgs e) {
             Clipboard.SetText(Checksums.sha512);
+        }
+
+        private void buttonVerifyCRC32_Click(object sender, RoutedEventArgs e) {
+            TextBoxVerifyFileChecksum.Text = Checksums.crc32;
+        }
+
+        private void buttonVerifyMD5_Click(object sender, RoutedEventArgs e) {
+            TextBoxVerifyFileChecksum.Text = Checksums.md5;
+        }
+
+        private void buttonVerifySHA1_Click(object sender, RoutedEventArgs e) {
+            TextBoxVerifyFileChecksum.Text = Checksums.sha1;
+        }
+
+        private void buttonVerifySHA256_Click(object sender, RoutedEventArgs e) {
+            TextBoxVerifyFileChecksum.Text = Checksums.sha256;
+        }
+
+        private void buttonVerifySHA512_Click(object sender, RoutedEventArgs e) {
+            TextBoxVerifyFileChecksum.Text = Checksums.sha512;
         }
 
         private void buttonSelectFile_Click(object sender, RoutedEventArgs e) {
@@ -88,6 +114,29 @@ namespace Checksum_Utility {
             textBoxSHA1.Text = "";
             textBoxSHA256.Text = "";
             textBoxSHA512.Text = "";
+
+            TextBoxVerifyFileChecksum.Text = "";
+            TextBoxVerifyCustomChecksum.Text = "";
+
+            verifyChecksums();
+        }
+
+        private Boolean verifyChecksums() {
+            String fileChecksum = TextBoxVerifyFileChecksum.Text.Replace(" ", "");
+            String customChecksum = TextBoxVerifyCustomChecksum.Text.Replace(" ", "");
+
+            if (String.IsNullOrEmpty(fileChecksum) || String.IsNullOrEmpty(customChecksum)) {
+                IconCompare.Foreground = new SolidColorBrush(Color.FromArgb(0x89, 0, 0, 0));
+                return false;
+            }
+
+            if(fileChecksum.ToUpper().Equals(customChecksum.ToUpper())) {
+                IconCompare.Foreground = new SolidColorBrush(Color.FromArgb(0xBF, 0x0A, 0xAC, 0x20));
+                return true;
+            } else {;
+                IconCompare.Foreground = new SolidColorBrush(Color.FromArgb(0xBF, 0xAC, 0x0A, 0x0A));
+                return false;
+            }
         }
 
         private async void buttonCheckFile_Click(object sender, RoutedEventArgs e) {
@@ -165,6 +214,15 @@ namespace Checksum_Utility {
                 byte[] checksum = sha.ComputeHash(stream);
                 Checksums.sha512 = BitConverter.ToString(checksum).Replace("-", String.Empty);
             }
+        }
+        private void TextBoxVerifyFileChecksum_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
+            verifyChecksums();
+        }
+
+        private void TextBoxVerifyCustomChecksum_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) {
+            // Messes with the "cursor position"
+            //TextBoxVerifyCustomChecksum.Text = TextBoxVerifyCustomChecksum.Text.ToUpper();
+            verifyChecksums();
         }
     }
 

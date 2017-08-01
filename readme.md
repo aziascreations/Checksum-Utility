@@ -8,7 +8,7 @@ This programs allows you to "quickly" get a file hash.
 
 ## Screenshot
 
-![Screenshot](http://i.imgur.com/iH0Aci7.png)
+![Screenshot](preview.png)
 
 ## Dependencies
 
