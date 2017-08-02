@@ -4,7 +4,7 @@
 
 ## Description
 
-This programs allows you to "quickly" get a file hash.
+This programs allows you to easily get a file checksum and compare it.
 
 ## Screenshot
 

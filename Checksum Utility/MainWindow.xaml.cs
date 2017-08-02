@@ -1,14 +1,29 @@
 ﻿using DamienG.Security.Cryptography;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace Checksum_Utility {
 
     public partial class MainWindow : Window {
+        // Source for the menu things: http://pietschsoft.com/post/2008/03/Add-System-Menu-Items-to-WPF-Window-using-Win32-API
+        public const Int32 WM_SYSCOMMAND = 0x112;
+        public const Int32 MF_SEPARATOR = 0x800;
+        public const Int32 MF_BYPOSITION = 0x400;
+        public const Int32 MF_STRING = 0x0;
+        public const Int32 _AboutSysMenuID = 1000;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll")]
+        private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
 
         public Boolean isFileLoaded = false;
         public string selectedFilePath = "";
@@ -16,6 +31,34 @@ namespace Checksum_Utility {
         public MainWindow() {
             InitializeComponent();
             progressBar.Visibility = Visibility.Hidden;
+        }
+        public IntPtr Handle {
+            get {
+                return new WindowInteropHelper(this).Handle;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            IntPtr systemMenuHandle = GetSystemMenu(this.Handle, false);
+
+            InsertMenu(systemMenuHandle, 5, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
+            InsertMenu(systemMenuHandle, 6, MF_BYPOSITION, _AboutSysMenuID, "About...");
+
+            HwndSource source = HwndSource.FromHwnd(this.Handle);
+            source.AddHook(new HwndSourceHook(WndProc));
+        }
+
+        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            if (msg == WM_SYSCOMMAND) {
+                switch (wParam.ToInt32()) {
+                    case _AboutSysMenuID:
+                        Window w = new AboutWindow();
+                        w.Show();
+                        handled = true;
+                        break;
+                }
+            }
+            return IntPtr.Zero;
         }
 
         private void checkBoxCRC32_Click(object sender, RoutedEventArgs e) {
@@ -223,6 +266,17 @@ namespace Checksum_Utility {
             // Messes with the "cursor position"
             //TextBoxVerifyCustomChecksum.Text = TextBoxVerifyCustomChecksum.Text.ToUpper();
             verifyChecksums();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key.ToString() == "F1") {
+                Window w = new AboutWindow();
+                w.Show();
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e) {
+            Process.GetCurrentProcess().Kill();
         }
     }
 

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -12,7 +13,17 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Checksum Utility" Height="365" Width="670">
+        Title="Checksum Utility" Height="365" Width="670" KeyDown="Window_KeyDown" Closed="Window_Closed" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <System:String x:Key="TooltipSelect">Select a file</System:String>
+        <System:String x:Key="TooltipCheck">Calculate checksum(s)</System:String>
+        <System:String x:Key="TooltipCopy">Copy</System:String>
+        <System:String x:Key="TooltipCompare">Compare</System:String>
+        <!--<System:String x:Key="TooltipCompareSelf"></System:String>-->
+        <System:String x:Key="TooltipCompareUser">Paste your checksum here.</System:String>
+    </Window.Resources>
+
     <Grid>
         <TextBox x:Name="textBoxFilePath" AllowDrop="True" Height="24" Margin="15,29,184,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Label x:Name="labelFile" Content="File :" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="100" FontWeight="Bold" Margin="5,5,0,0"/>
@@ -37,23 +48,23 @@
         <TextBox x:Name="textBoxSHA1" Height="23" Margin="90,160,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
         <TextBox x:Name="textBoxSHA256" Height="23" Margin="90,192,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
         <TextBox x:Name="textBoxSHA512" Height="23" Margin="90,224,120,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
-        <Button x:Name="buttonCopyCRC32" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,95,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopyCRC32_Click"/>
-        <Button x:Name="buttonCopyMD5" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,127,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopyMD5_Click"/>
-        <Button x:Name="buttonCopySHA1" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,159,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA1_Click"/>
-        <Button x:Name="buttonCopySHA256" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,191,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA256_Click"/>
-        <Button x:Name="buttonCopySHA512" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,223,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA512_Click"/>
-        <Button x:Name="buttonCheckFile" Content="Check" Height="24" Margin="0,29,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonCheckFile_Click"/>
+        <Button x:Name="buttonCopyCRC32" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,95,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopyCRC32_Click" ToolTip="{DynamicResource TooltipCopy}"/>
+        <Button x:Name="buttonCopyMD5" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,127,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopyMD5_Click" ToolTip="{DynamicResource TooltipCopy}"/>
+        <Button x:Name="buttonCopySHA1" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,159,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA1_Click" ToolTip="{DynamicResource TooltipCopy}"/>
+        <Button x:Name="buttonCopySHA256" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,191,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA256_Click" ToolTip="{DynamicResource TooltipCopy}"/>
+        <Button x:Name="buttonCopySHA512" Content="{materialDesign:PackIcon ContentCopy}" Height="24" Margin="0,223,65,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="50" IsEnabled="False" Click="buttonCopySHA512_Click" ToolTip="{DynamicResource TooltipCopy}"/>
+        <Button x:Name="buttonCheckFile" Content="Check" Height="24" Margin="0,29,10,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonCheckFile_Click" ToolTip="{DynamicResource TooltipCheck}"/>
         <Label x:Name="labelVerify" Content="Verify :" HorizontalAlignment="Left" Height="24" Margin="5,257,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
-        <Button x:Name="buttonSelectFile" Content="Select" Height="24" Margin="0,29,97,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonSelectFile_Click"/>
+        <Button x:Name="buttonSelectFile" Content="Select" Height="24" Margin="0,29,97,0" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Right" Width="82" Click="buttonSelectFile_Click" ToolTip="{DynamicResource TooltipSelect}"/>
         <ProgressBar x:Name="progressBar" Height="4" VerticalAlignment="Bottom" IsIndeterminate="True"/>
-        <Button x:Name="buttonVerifyCRC32" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,95,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifyCRC32_Click"/>
-        <Button x:Name="buttonVerifyMD5" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,127,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifyMD5_Click"/>
-        <Button x:Name="buttonVerifySHA1" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,159,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA1_Click"/>
-        <Button x:Name="buttonVerifySHA256" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,191,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA256_Click"/>
-        <Button x:Name="buttonVerifySHA512" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,223,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA512_Click"/>
-        <materialDesign:PackIcon x:Name="IconCompare" Grid.Column="0" Kind="Compare" Margin="320,286,0,0" HorizontalAlignment="Left" Width="20" Height="20" Foreground="#89000000" />
+        <Button x:Name="buttonVerifyCRC32" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,95,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifyCRC32_Click" ToolTip="{DynamicResource TooltipCompare}"/>
+        <Button x:Name="buttonVerifyMD5" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,127,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifyMD5_Click" ToolTip="{DynamicResource TooltipCompare}"/>
+        <Button x:Name="buttonVerifySHA1" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,159,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA1_Click" ToolTip="{DynamicResource TooltipCompare}"/>
+        <Button x:Name="buttonVerifySHA256" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,191,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA256_Click" ToolTip="{DynamicResource TooltipCompare}"/>
+        <Button x:Name="buttonVerifySHA512" Content="{materialDesign:PackIcon Magnify}" HorizontalAlignment="Right" Height="24" Margin="0,223,10,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.48,0.375" IsEnabled="False" Click="buttonVerifySHA512_Click" ToolTip="{DynamicResource TooltipCompare}"/>
+        <materialDesign:PackIcon x:Name="IconCompare" Grid.Column="0" Kind="Compare" Margin="324,286,0,0" HorizontalAlignment="Left" Width="20" Height="20" Foreground="#89000000" />
         <TextBox x:Name="TextBoxVerifyFileChecksum" materialDesign:HintAssist.Hint="File checksum" Height="25" Margin="15,281,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" TextChanged="TextBoxVerifyFileChecksum_TextChanged"/>
-        <TextBox x:Name="TextBoxVerifyCustomChecksum" materialDesign:HintAssist.Hint="Your checksum" Height="25" Margin="352,281,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBoxVerifyCustomChecksum_TextChanged"/>
+        <TextBox x:Name="TextBoxVerifyCustomChecksum" materialDesign:HintAssist.Hint="Your checksum" Height="25" Margin="352,281,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBoxVerifyCustomChecksum_TextChanged" ToolTip="{DynamicResource TooltipCompareUser}"/>
 
     </Grid>
 </Window>
